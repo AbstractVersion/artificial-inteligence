@@ -1,1 +1,2 @@
-# iterative-deepening-search
+# uninformed-search-algorithms
+
