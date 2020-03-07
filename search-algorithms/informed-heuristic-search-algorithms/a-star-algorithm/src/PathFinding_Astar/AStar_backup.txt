@@ -1,0 +1,66 @@
+package PathFinding;
+
+import java.util.*;
+
+public class AStar {
+
+	private int startNodeIndex;
+	private int targetNodeIndex;
+	private boolean targetFound;
+	
+	private PriorityQueue<Node> openCells;
+	private boolean[][] closedCells;
+	
+	public AStar(){
+		
+	}
+	
+	public List<Node> search(Graph myGraph , int startNodeIndex , int targetNodeIndex) {
+		List<Node> nodeVisited = new ArrayList<>();
+		this.startNodeIndex = startNodeIndex;
+		this.targetNodeIndex = targetNodeIndex;
+ 
+		List<Node> nodeList = myGraph.getAllNodes();
+		Node root = nodeList.get(this.startNodeIndex - 1);
+		nodeVisited.add(root);
+		root.setVisited(true);
+		
+		List<Node> neighbours = null;
+		
+		do {
+			neighbours = root.getNeighbours();
+			 
+			
+			double min = Integer.MAX_VALUE;
+			int idx = 1; // Index of the best neighbour
+			for (Node n : neighbours) {
+				
+				double g = 1;
+				double h = n.getHValue();
+				double f = g + h;
+
+				
+				if (f < min && n.isVisited() == false) {
+					min = f;
+					idx = (int) n.getElement();
+				}
+			}
+			
+			root = nodeList.get(idx-1);
+			nodeVisited.add(root);
+			root.setVisited(true);
+			
+			if ((int) root.getElement() == this.targetNodeIndex  ) {
+				 this.targetFound = true;
+				 return nodeVisited;
+			}	 
+				 
+		}while (  targetFound == false   );
+		
+		return nodeVisited;
+	}
+	
+}
+
+
+ 
